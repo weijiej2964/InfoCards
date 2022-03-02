@@ -108,6 +108,6 @@ getDocs(colRef)
     console.log(err.message)
   })
   
-  // document.querySelector("#card").addEventListener('click',function(event){
-  //   document.querySelector('.box').style.display='block'
-  // })
+  document.querySelector("#card").addEventListener('click',function(event){
+    document.querySelector('.box').style.display='block'
+  })
