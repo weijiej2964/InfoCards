@@ -1,7 +1,7 @@
 .box{
-    display:none;
+    display: none;
     padding:100px;
-    position:absolute;
+    position: absolute;
     left: 40%;
     top:280px;
     background:gray;
