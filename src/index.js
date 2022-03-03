@@ -93,6 +93,13 @@ getDocs(colRef)
       place.appendChild(card)
       document.querySelector('.row').appendChild(place)
       
+        document.querySelectorAll('.card').forEach(function(event){
+        event.addEventListener('click',function(thing){
+          console.log(thing.target.nextElementSibling.children[0].innerHTML)
+          // document.querySelector('.box').style.display ='block'
+          location.href = 'cards/card.html'
+        })
+      })
   
     })
   })
