@@ -64,7 +64,7 @@ getDocs(colRef)
       
     })
     
-    document.querySelector('button').addEventListener('click', function(event){
+    document.querySelector('#create').addEventListener('click', function(event){
       console.log(cards)
       //create card
       var place = document.createElement('div')
@@ -92,12 +92,6 @@ getDocs(colRef)
       place.appendChild(card)
       document.querySelector('.row').appendChild(place)
       
-      document.querySelectorAll('card').forEach(function(event){
-        event.addEventListener('click',function(thing){
-          console.log(thing.target.nextElementSibling.children[0].innerHTML)
-          document.querySelector('.box').style.display ='block'
-        })
-      })
   
     })
   })
@@ -108,6 +102,12 @@ getDocs(colRef)
     console.log(err.message)
   })
   
-  document.querySelector("#card").addEventListener('click',function(event){
-    document.querySelector('.box').style.display='block'
+  // document.querySelector(card).addEventListener('click',function(event){
+  //   document.querySelector('.box').style.display='block'
+    
+  // })
+  
+  document.querySelector("#closeBox").addEventListener('click', function(event){
+    document.querySelector('.box').style.display = 'none'
+    console.log("hel")
   })
