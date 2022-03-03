@@ -6,39 +6,28 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="card.css" rel="stylesheet" type="text/css" />
+    <link href="add.css" rel="stylesheet" type="text/css" />
     <title>Info Card Project</title>
 </head>
 <body>
-<!--    <h1>Info Cards</h1>-->
 <button id = "create">Create Card</button>
-<!--<div class="row">-->
+<button id = "closeBox"> close </button>
 
-<!--</div>-->
-    
-    <button id = "closeBox"> close </button>
-    <h1 id=title>placeholder</h1>
-    <p id='shortdescription'>Placeholder</p>
-    <p id='notes'>Placeholder</p>
-    <button id = "delete"> delete </button>
-
-    <!--<button id='show'>Show</button>-->
-        <form class="add">
+<form class="add">
+    <label for="imgurl">Image Url:</label>
+    <input type="text" name="imgurl" required>
+    <br>
     <label for="name">Name:</label>
     <input type="text" name="name" required>
     <br>
     <label for="shortdescription">Description:</label>
     <input type="text" name="shortdescription" required>
     <br>
-    <label for="notes">Notes:</label>
-    <input type="text" name="notes" required>
-    <br>
-    <label for="imgurl">Image Url:</label>
-    <input type="text" name="imgurl" required>
-    <br>
+    <!--<label for="notes">Notes:</label>-->
+    <!--<input type="text" name="notes" required>-->
+    <!--<br>-->
      <button id="make">add a new card</button>
   </form>
-    <a href= 'cards/card.html'>here</a>
 
     <script src="../bundle.js"></script>
 </body>

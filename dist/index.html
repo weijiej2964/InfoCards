@@ -23,11 +23,24 @@
 <!--    <p id='notes'>Placeholder</p>-->
 <!--    <button id = "delete"> delete </button>-->
 <!--</div>-->
-    
-    <!--<button id='show'>Show</button>-->
-    
-    <a href= 'cards/card.html'>here</a>
+        <button id = "closeBox"> close </button>
 
+    <!--<button id='show'>Show</button>-->
+    <form class="add">
+    <label for="name">Name:</label>
+    <input type="text" name="name" required>
+    <br>
+    <label for="shortdescription">Description:</label>
+    <input type="text" name="shortdescription" required>
+    <br>
+    <!--<label for="notes">Notes:</label>-->
+    <!--<input type="text" name="notes">-->
+    <!--<br>-->
+    <label for="imgurl">Image Url:</label>
+    <input type="reference" name="imgurl">
+    <br>
+     <button>add a new card</button>
+  </form>
     <script src="bundle.js"></script>
 </body>
 </html>
