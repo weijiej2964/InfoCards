@@ -58,7 +58,8 @@ getDocs(colRef)
       document.querySelectorAll('.card').forEach(function(event){
         event.addEventListener('click',function(thing){
           console.log(thing.target.nextElementSibling.children[0].innerHTML)
-          document.querySelector('.box').style.display ='block'
+          // document.querySelector('.box').style.display ='block'
+          location.href = 'cards/card.html'
         })
       })
       
@@ -102,12 +103,9 @@ getDocs(colRef)
     console.log(err.message)
   })
   
-  // document.querySelector(card).addEventListener('click',function(event){
-  //   document.querySelector('.box').style.display='block'
-    
-  // })
-  
+
   document.querySelector("#closeBox").addEventListener('click', function(event){
-    document.querySelector('.box').style.display = 'none'
-    console.log("hel")
+    // document.querySelector('.box').style.display = 'none'
+    // console.log("hel")
+    location.href = '../index.html'
   })
