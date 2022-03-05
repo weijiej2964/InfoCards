@@ -75,8 +75,6 @@ getDocs(colRef)
           var cardName = document.querySelector("#title")
           var cardDesc = document.querySelector("#shortdescription")
           var cardNote = document.querySelector("#notes")
- 
-   
           onSnapshot(docRef, (doc) => {
             cardName.innerHTML = doc.data().name
             cardDesc.innerHTML = doc.data().shortdescription
