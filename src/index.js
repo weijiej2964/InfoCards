@@ -1,7 +1,9 @@
 import{ initializeApp }from 'firebase/app'
 import{
   getFirestore, collection, getDocs,
-  addDoc
+  addDoc, deleteDoc, getDoc, doc,
+  onSnapshot
+  
 } from 'firebase/firestore'
 
 
@@ -24,9 +26,10 @@ const db = getFirestore()
 const colRef = collection(db, 'cards')
 
 // get collection data
+let cards = []
 getDocs(colRef)
   .then(function(snapshot){
-    let cards = []
+    // let cards = []
     snapshot.docs.forEach(function(doc){
       cards.push({ ...doc.data(), id:doc.id })
     })
@@ -38,6 +41,7 @@ getDocs(colRef)
       var bod = document.createElement('div')
       var names = document.createElement('h4')
       var description = document.createElement('p')
+      var docId = document.createElement('p')
       //add class
       place.classList.add('col-sm-10', 'col-md-4', 'col-lg-3', 'col-xl-2')
       card.classList.add('card')
@@ -45,32 +49,48 @@ getDocs(colRef)
       bod.classList.add('card-body')
       names.classList.add('card-title')
       description.classList.add('card-text')
+      docId.style.display = 'none'
+     
       //insert info
       picture.src = event.imgurl
       names.innerHTML = event.name
       description.innerHTML = event.shortdescription
+      docId.innerHTML = event.id
       //construct card
       bod.appendChild(names)
       bod.appendChild(description)
+      bod.appendChild(docId)
       card.appendChild(picture)
       card.appendChild(bod)
       place.appendChild(card)
       document.querySelector('.row').appendChild(place)
       
-      document.querySelectorAll('.card').forEach(function(event){
-        event.addEventListener('click',function(thing){
-          console.log(thing.target.nextElementSibling.children[0].innerHTML)
-          // document.querySelector('.box').style.display ='block'
-          location.href = 'cards/card.html'
+      
+      document.querySelectorAll('.card').forEach(function(card){
+        card.addEventListener('click',function(thing){
+          
+          // location.href = 'cards/card.html'
+          // console.log(thing.target.nextElementSibling.children[0].innerHTML)
+          const cardTitle = document.querySelector("#title")
+          const cardDesc = document.querySelector("#shortdescription")
+          const cardNotes = document.querySelector("#notes")
+          const currentDoc = thing.target.nextElementSibling.children[2].innerHTML
+          const docRef = doc(db, 'cards', currentDoc)
+          onSnapshot(docRef, (doc) => {
+            console.log(doc.data().name)
+            console.log(doc.data().shortdescription)
+            console.log(doc.data().notes)
+          })
         })
       })
-      
     })
     
   })
   .catch(err => {
     console.log(err.message)
   })
+  
+
   
   //add a card
   const addCardForm = document.querySelector('.add')
@@ -98,4 +118,21 @@ getDocs(colRef)
     // console.log("hel")
     location.href = '../index.html'
   })
+  
 
+
+  
+  
+ 
+  
+  
+
+  
+   
+  
+
+
+
+ 
+ 
+ 
