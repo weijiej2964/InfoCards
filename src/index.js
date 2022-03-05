@@ -66,25 +66,41 @@ getDocs(colRef)
       document.querySelector('.row').appendChild(place)
       
       
+     
       document.querySelectorAll('.card').forEach(function(card){
         card.addEventListener('click',function(thing){
-          
-          // location.href = 'cards/card.html'
           // console.log(thing.target.nextElementSibling.children[0].innerHTML)
-          const cardTitle = document.querySelector("#title")
-          const cardDesc = document.querySelector("#shortdescription")
-          const cardNotes = document.querySelector("#notes")
-          const currentDoc = thing.target.nextElementSibling.children[2].innerHTML
-          const docRef = doc(db, 'cards', currentDoc)
+          let currentDoc = thing.target.nextElementSibling.children[2].innerHTML
+          let docRef = doc(db, 'cards', currentDoc)
+          var cardName = document.querySelector("#title")
+          var cardDesc = document.querySelector("#shortdescription")
+          var cardNote = document.querySelector("#notes")
+ 
+   
           onSnapshot(docRef, (doc) => {
-            console.log(doc.data().name)
-            console.log(doc.data().shortdescription)
-            console.log(doc.data().notes)
+            cardName.innerHTML = doc.data().name
+            cardDesc.innerHTML = doc.data().shortdescription
+            cardNote.innerHTML = doc.data().notes
           })
+   
+          // location.href = 'cards/card.html'
         })
       })
+      
+      document.querySelectorAll('.card').forEach(function(event){
+        event.addEventListener('click',function(thing){
+          console.log(thing.target.nextElementSibling.children[0].innerHTML)
+          document.querySelector('.box').style.display ='block'
+        })
+        document.querySelector("#closeButton").addEventListener("click", function(){
+          document.querySelector('.box').style.display ='none'
+        })
+      })
+  
+      
     })
     
+     
   })
   .catch(err => {
     console.log(err.message)
@@ -106,7 +122,11 @@ getDocs(colRef)
       addCardForm.reset()
       location.href = '../index.html'
     })
-  })
+  }) 
+  
+
+  
+  
   
   document.querySelector('#create').addEventListener('click',function(){
     console.log('ell')
@@ -119,6 +139,14 @@ getDocs(colRef)
     location.href = '../index.html'
   })
   
+  
+  // const curId = 
+
+ 
+  
+  
+  
+
 
 
   
