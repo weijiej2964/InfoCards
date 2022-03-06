@@ -3,7 +3,7 @@ import{
   getFirestore, collection, getDocs,
   addDoc, deleteDoc, getDoc, doc,
   onSnapshot
-  
+
 } from 'firebase/firestore'
 
 
@@ -26,6 +26,9 @@ const db = getFirestore()
 const colRef = collection(db, 'cards')
 
 // get collection data
+
+
+
 let cards = []
 getDocs(colRef)
   .then(function(snapshot){
@@ -50,7 +53,7 @@ getDocs(colRef)
       names.classList.add('card-title')
       description.classList.add('card-text')
       docId.style.display = 'none'
-     
+
       //insert info
       picture.src = event.imgurl
       names.innerHTML = event.name
@@ -64,9 +67,9 @@ getDocs(colRef)
       card.appendChild(bod)
       place.appendChild(card)
       document.querySelector('.row').appendChild(place)
-      
-      
-     
+
+
+
       document.querySelectorAll('.card').forEach(function(card){
         card.addEventListener('click',function(thing){
           // console.log(thing.target.nextElementSibling.children[0].innerHTML)
@@ -80,11 +83,18 @@ getDocs(colRef)
             cardDesc.innerHTML = doc.data().shortdescription
             cardNote.innerHTML = doc.data().notes
           })
-   
+          
+          document.querySelector('#delete').addEventListener('click', function(){
+            deleteDoc(docRef)
+            .then(() => {
+              document.querySelector('.box').style.display ='none'
+            })
+          })
+
           // location.href = 'cards/card.html'
         })
       })
-      
+
       document.querySelectorAll('.card').forEach(function(event){
         event.addEventListener('click',function(thing){
           console.log(thing.target.nextElementSibling.children[0].innerHTML)
@@ -94,18 +104,19 @@ getDocs(colRef)
           document.querySelector('.box').style.display ='none'
         })
       })
-  
-      
-    })
+
     
-     
+
+    })
+
+
   })
   .catch(err => {
     console.log(err.message)
   })
-  
 
-  
+
+
   //add a card
   const addCardForm = document.querySelector('.add')
   addCardForm.addEventListener('submit',(e) => {
@@ -120,45 +131,45 @@ getDocs(colRef)
       addCardForm.reset()
       location.href = '../index.html'
     })
-  }) 
-  
+  })
 
-  
-  
-  
+
+
+
+
   document.querySelector('#create').addEventListener('click',function(){
     console.log('ell')
     location.href = 'cards/add.html'
   })
-  
+
   document.querySelector("#closeBox").addEventListener('click', function(event){
     // document.querySelector('.box').style.display = 'none'
     // console.log("hel")
     location.href = '../index.html'
   })
-  
-  
-  // const curId = 
 
- 
-  
-  
-  
+
+  // const curId =
 
 
 
-  
-  
- 
-  
-  
-
-  
-   
-  
 
 
 
- 
- 
- 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
