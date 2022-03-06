@@ -87,6 +87,7 @@ getDocs(colRef)
           document.querySelector('#delete').addEventListener('click', function(){
             deleteDoc(docRef)
             .then(() => {
+              card.parentNode.remove()
               document.querySelector('.box').style.display ='none'
             })
           })
