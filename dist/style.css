@@ -42,3 +42,11 @@
 .eachDoc {
     display: none;
 }
+
+
+#image{
+    height: 50%;
+    width: 40%;
+    position: relative;
+    float: left;
+}
