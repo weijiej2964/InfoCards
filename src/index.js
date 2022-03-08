@@ -46,7 +46,7 @@ getDocs(colRef)
       var description = document.createElement('p')
       var docId = document.createElement('p')
       //add class
-      place.classList.add('col-sm-10', 'col-md-5', 'col-lg-4', 'col-xl-3')
+      place.classList.add('col-sm-10', 'col-md-5', 'col-lg-4', 'col-xl-3', event.id)
       card.classList.add('card')
       picture.classList.add('card-img-top', 'col-xl-3')
       bod.classList.add('card-body')
@@ -67,11 +67,11 @@ getDocs(colRef)
       card.appendChild(bod)
       place.appendChild(card)
       document.querySelector('.row').appendChild(place)
-
-
-
-      document.querySelectorAll('.card').forEach(function(card){
-        card.addEventListener('click',function(thing){
+      
+        place.addEventListener('click',function(thing){
+          console.log(thing)
+          // var targetCard = thing.path[1]
+          document.querySelector('.box').style.display ='block'
           // console.log(thing.target.nextElementSibling.children[0].innerHTML)
           let currentDoc = thing.target.nextElementSibling.children[2].innerHTML
           let docRef = doc(db, 'cards', currentDoc)
@@ -79,44 +79,45 @@ getDocs(colRef)
           var cardDesc = document.querySelector("#shortdescription")
           var cardNote = document.querySelector("#notes")
           var cardImg = document.querySelector("#image")
+          var cardid = document.querySelector('#gone')
+          
+          
           onSnapshot(docRef, (doc) => {
             cardImg.src = doc.data().imgurl
             cardName.innerHTML = doc.data().name
             cardDesc.innerHTML = doc.data().shortdescription
             cardNote.innerHTML = doc.data().notes
+            cardid.innerHTML =  currentDoc
           })
           
-          document.querySelector('#delete').addEventListener('click', function(){
-            deleteDoc(docRef)
+           document.querySelector('#delete').addEventListener('click', function(event){
+            // console.log(document.querySelector('.'+ document.querySelector('#gone').innerHTML))
+            deleteDoc(doc(db,'cards', document.querySelector('#gone').innerHTML))
             .then(() => {
-              card.parentNode.remove()
               document.querySelector('.box').style.display ='none'
+              document.querySelector('.'+document.querySelector('#gone').innerHTML).remove()
             })
           })
-
-          // location.href = 'cards/card.html'
-        })
+          
       })
+      
+      })
+    })
+  .catch(err => {
+    console.log(err.message)
+  })
+
 
       document.querySelectorAll('.card').forEach(function(event){
         event.addEventListener('click',function(thing){
           console.log(thing.target.nextElementSibling.children[0].innerHTML)
           document.querySelector('.box').style.display ='block'
         })
+      })
         document.querySelector("#closeButton").addEventListener("click", function(){
           document.querySelector('.box').style.display ='none'
         })
-      })
 
-    
-
-    })
-
-
-  })
-  .catch(err => {
-    console.log(err.message)
-  })
 
 
 
@@ -152,7 +153,6 @@ getDocs(colRef)
   })
 
 
-  // const curId =
 
 
 
