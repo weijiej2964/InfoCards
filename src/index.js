@@ -2,7 +2,7 @@ import{ initializeApp }from 'firebase/app'
 import{
   getFirestore, collection, getDocs,
   addDoc, deleteDoc, getDoc, doc,
-  onSnapshot
+  onSnapshot, updateDoc
 
 } from 'firebase/firestore'
 
@@ -100,7 +100,6 @@ getDocs(colRef)
           })
           
       })
-      
       })
     })
   .catch(err => {
@@ -151,6 +150,27 @@ getDocs(colRef)
     // console.log("hel")
     location.href = '../index.html'
   })
+  
+  
+  
+      document.querySelector('#save').addEventListener('click', function(){
+        const docId = document.querySelector('#gone')
+        const docRef = doc(db, 'cards', docId.innerHTML)
+        
+        updateDoc(docRef, {
+          name: document.querySelector('#title').innerHTML
+          
+        })
+        
+        updateDoc(docRef, {
+          notes: document.querySelector('#notes').innerHTML
+        })
+        
+          updateDoc(docRef, {
+          shortdescription: document.querySelector('#shortdescription').innerHTML
+        })
+        
+      })
 
 
 
