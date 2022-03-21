@@ -24,10 +24,9 @@ const db = getFirestore()
 //collection ref
 const colRef = collection(db, 'cards')
 
-// get collection data
 
 
-
+// display cards
 let cards = []
 getDocs(colRef)
   .then(function(snapshot){
@@ -67,54 +66,63 @@ getDocs(colRef)
       place.appendChild(card)
       document.querySelector('.row').appendChild(place)
       
-        place.addEventListener('click',function(thing){
-          console.log(thing)
-          // var targetCard = thing.path[1]
-          document.querySelector('.box').style.display ='block'
-          // console.log(thing.target.nextElementSibling.children[0].innerHTML)
-          let currentDoc = thing.target.nextElementSibling.children[2].innerHTML
-          let docRef = doc(db, 'cards', currentDoc)
-          var cardName = document.querySelector("#title")
-          var cardDesc = document.querySelector("#shortdescription")
-          var cardNote = document.querySelector("#notes")
-          var cardImg = document.querySelector("#image")
-          var cardid = document.querySelector('#gone')
-          
-          
-          onSnapshot(docRef, (doc) => {
-            cardImg.src = doc.data().imgurl
-            cardName.innerHTML = doc.data().name
-            cardDesc.innerHTML = doc.data().shortdescription
-            cardNote.innerHTML = doc.data().notes
-            cardid.innerHTML =  currentDoc
+    //display card in box
+      place.addEventListener('click',function(thing){
+        console.log(thing)
+        // var targetCard = thing.path[1]
+        document.querySelector('.box').style.display ='block'
+        // console.log(thing.target.nextElementSibling.children[0].innerHTML)
+        let currentDoc = thing.target.nextElementSibling.children[2].innerHTML
+        let docRef = doc(db, 'cards', currentDoc)
+        var cardName = document.querySelector("#title")
+        var cardDesc = document.querySelector("#shortdescription")
+        var cardNote = document.querySelector("#notes")
+        var cardImg = document.querySelector("#image")
+        var cardid = document.querySelector('#gone')
+        
+        onSnapshot(docRef, (doc) => {
+          cardImg.src = doc.data().imgurl
+          cardName.innerHTML = doc.data().name
+          cardDesc.innerHTML = doc.data().shortdescription
+          cardNote.innerHTML = doc.data().notes
+          cardid.innerHTML =  currentDoc
+        })
+        
+        // delete card
+         document.querySelector('#delete').addEventListener('click', function(event){
+          // console.log(document.querySelector('.'+ document.querySelector('#gone').innerHTML))
+          deleteDoc(doc(db,'cards', document.querySelector('#gone').innerHTML))
+          .then(() => {
+            document.querySelector('.box').style.display ='none'
+            document.querySelector('.'+document.querySelector('#gone').innerHTML).remove()
           })
+        })
+        
+        document.querySelector('#save').addEventListener('click',function(){
+          // picture.src = document.querySelector('#imgurl')
+          names.innerHTML = document.querySelector('#title').innerHTML
+          description.innerHTML = document.querySelector('#shortdescription').innerHTML
           
-           document.querySelector('#delete').addEventListener('click', function(event){
-            // console.log(document.querySelector('.'+ document.querySelector('#gone').innerHTML))
-            deleteDoc(doc(db,'cards', document.querySelector('#gone').innerHTML))
-            .then(() => {
-              document.querySelector('.box').style.display ='none'
-              document.querySelector('.'+document.querySelector('#gone').innerHTML).remove()
-            })
-          })
-          
-      })
+        })
+        
+    })
       })
     })
   .catch(err => {
     console.log(err.message)
   })
 
-
-      document.querySelectorAll('.card').forEach(function(event){
-        event.addEventListener('click',function(thing){
-          console.log(thing.target.nextElementSibling.children[0].innerHTML)
-          document.querySelector('.box').style.display ='block'
-        })
-      })
-        document.querySelector("#closeButton").addEventListener("click", function(){
-          document.querySelector('.box').style.display ='none'
-        })
+// display cards when clicked
+document.querySelectorAll('.card').forEach(function(event){
+  event.addEventListener('click',function(thing){
+    console.log(thing.target.nextElementSibling.children[0].innerHTML)
+    document.querySelector('.box').style.display ='block'
+  })
+})
+// undisplay card when close
+  document.querySelector("#closeButton").addEventListener("click", function(){
+    document.querySelector('.box').style.display ='none'
+  })
 
 
 
@@ -138,38 +146,35 @@ getDocs(colRef)
 
 
 
+// create a card 
+document.querySelector('#create').addEventListener('click',function(){
+  console.log('ell')
+  location.href = 'cards/add.html'
+})
 
-  document.querySelector('#create').addEventListener('click',function(){
-    console.log('ell')
-    location.href = 'cards/add.html'
-  })
 
-  document.querySelector("#closeBox").addEventListener('click', function(event){
-    // document.querySelector('.box').style.display = 'none'
-    // console.log("hel")
-    location.href = '../index.html'
+// redirect to main page
+document.querySelector("#closeBox").addEventListener('click', function(event){
+  // document.querySelector('.box').style.display = 'none'
+  // console.log("hel")
+  location.href = '../index.html'
+})
+  
+//save changes 
+document.querySelector('#save').addEventListener('click', function(){
+  const docId = document.querySelector('#gone')
+  const docRef = doc(db, 'cards', docId.innerHTML)
+  updateDoc(docRef, {
+    name: document.querySelector('#title').innerHTML
   })
-  
-  
-  
-      document.querySelector('#save').addEventListener('click', function(){
-        const docId = document.querySelector('#gone')
-        const docRef = doc(db, 'cards', docId.innerHTML)
-        
-        updateDoc(docRef, {
-          name: document.querySelector('#title').innerHTML
-          
-        })
-        
-        updateDoc(docRef, {
-          notes: document.querySelector('#notes').innerHTML
-        })
-        
-          updateDoc(docRef, {
-          shortdescription: document.querySelector('#shortdescription').innerHTML
-        })
-        
-      })
+  updateDoc(docRef, {
+    notes: document.querySelector('#notes').innerHTML
+  })
+    updateDoc(docRef, {
+    shortdescription: document.querySelector('#shortdescription').innerHTML
+  })
+  document.querySelector('.box').style.display = 'none'
+})
 
 
 
