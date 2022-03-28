@@ -46,7 +46,7 @@ getDocs(colRef)
       //add class
       place.classList.add('col-sm-10', 'col-md-5', 'col-lg-4', 'col-xl-3', event.id)
       card.classList.add('card')
-      picture.classList.add('card-img-top', 'col-xl-3')
+      picture.classList.add('card-img-top', 'col-xl-3','pic')
       bod.classList.add('card-body')
       names.classList.add('card-title')
       description.classList.add('card-text')
@@ -69,7 +69,8 @@ getDocs(colRef)
     //display card in box
       place.addEventListener('click',function(thing){
         console.log(thing)
-        // var targetCard = thing.path[1]
+        var targetCard = thing.path[1]
+
         document.querySelector('.box').style.display ='block'
         // console.log(thing.target.nextElementSibling.children[0].innerHTML)
         let currentDoc = thing.target.nextElementSibling.children[2].innerHTML
@@ -102,12 +103,21 @@ getDocs(colRef)
           // picture.src = document.querySelector('#imgurl')
           names.innerHTML = document.querySelector('#title').innerHTML
           description.innerHTML = document.querySelector('#shortdescription').innerHTML
-          
         })
         
-    })
+        document.querySelector('#changeImgButton').addEventListener('click',function(){
+          const docRef = doc(db, 'cards', docId.innerHTML)
+            updateDoc(docRef, {
+              imgurl: document.querySelector('#changeImgText').value
+            })
+            document.querySelector('#image').src = document.querySelector('#changeImgText').value
+            // console.log(document.querySelector('.'+document.querySelector('#gone').innerHTML))
+            targetCard.querySelector('.pic').src = document.querySelector('#changeImgText').value
+            // cardImg.src = document.querySelector('#changeImgText').value
+        })
       })
     })
+  })
   .catch(err => {
     console.log(err.message)
   })
