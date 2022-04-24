@@ -105,6 +105,7 @@ getDocs(colRef)
           // picture.src = document.querySelector('#imgurl')
           names.innerHTML = document.querySelector('#title').innerHTML
           description.innerHTML = document.querySelector('#shortdescription').innerHTML
+          
         })
         //change image
         document.querySelector('#changeImgButton').addEventListener('click',function(){
@@ -117,6 +118,7 @@ getDocs(colRef)
             document.querySelector('#image').src = document.querySelector('#changeImgText').value
             // console.log(document.querySelector('.'+document.querySelector('#gone').innerHTML))
             document.querySelector('.c' + document.querySelector('#gone').innerHTML).querySelector('.b'+document.querySelector('#gone').innerHTML).src = document.querySelector('#changeImgText').value
+            
             // cardImg.src = document.querySelector('#changeImgText').value
         })
       })
@@ -160,11 +162,11 @@ document.querySelectorAll('.card').forEach(function(event){
 
 
 
-// create a card 
-document.querySelector('#create').addEventListener('click',function(){
-  console.log('ell')
-  location.href = 'cards/add.html'
-})
+// // create a card 
+// document.querySelector('#create').addEventListener('click',function(){
+//   console.log('ell')
+//   location.href = 'cards/add.html'
+// })
 
 
 // redirect to main page
@@ -176,6 +178,7 @@ document.querySelector("#closeBox").addEventListener('click', function(event){
   
 //save changes 
 document.querySelector('#save').addEventListener('click', function(){
+  console.log(document.querySelector('#shortdescription').innerHTML)
   const docId = document.querySelector('#gone')
   const docRef = doc(db, 'cards', docId.innerHTML)
   updateDoc(docRef, {
@@ -189,6 +192,7 @@ document.querySelector('#save').addEventListener('click', function(){
   })
   document.querySelector('.box').style.display = 'none'
 })
+
 
 
 
