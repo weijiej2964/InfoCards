@@ -100,13 +100,13 @@ getDocs(colRef)
             document.querySelector('.'+document.querySelector('#gone').innerHTML).remove()
           })
         })
+        
         // save
         document.querySelector('#save').addEventListener('click',function(){
-          // picture.src = document.querySelector('#imgurl')
           names.innerHTML = document.querySelector('#title').innerHTML
           description.innerHTML = document.querySelector('#shortdescription').innerHTML
-          
         })
+        
         //change image
         document.querySelector('#changeImgButton').addEventListener('click',function(){
           
@@ -114,12 +114,8 @@ getDocs(colRef)
             updateDoc(docRef, {
               imgurl: document.querySelector('#changeImgText').value
             })
-            // console.log((document.querySelector('.c' + document.querySelector('#gone').innerHTML)).querySelector('.b'+document.querySelector('#gone').innerHTML))
             document.querySelector('#image').src = document.querySelector('#changeImgText').value
-            // console.log(document.querySelector('.'+document.querySelector('#gone').innerHTML))
             document.querySelector('.c' + document.querySelector('#gone').innerHTML).querySelector('.b'+document.querySelector('#gone').innerHTML).src = document.querySelector('#changeImgText').value
-            
-            // cardImg.src = document.querySelector('#changeImgText').value
         })
       })
     })
