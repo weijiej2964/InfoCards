@@ -35,8 +35,6 @@ const auth = getAuth()
       
   const colRef = collection(db, 'cards')
   console.log(user.uid)
-  console.log(colRef)
-
 
 // display cards
 let cards = []
@@ -56,14 +54,16 @@ getDocs(colRef)
       var description = document.createElement('p')
       var docId = document.createElement('p')
       var userUid = document.createElement('p')
+      var userEmail = document.createElement('p')
       //add class
       place.classList.add('col-sm-10', 'col-md-5', 'col-lg-4', 'col-xl-3', 'c' +event.id)
       card.classList.add('card')
       picture.classList.add('card-img-top', 'col-xl-3','pic', 'fixImage','b'+event.id)
-      bod.classList.add('card-body')
+      bod.classList.add('card-body', 'bod')
       names.classList.add('card-title')
       description.classList.add('card-text')
       docId.style.display = 'none'
+      userUid.style.display = 'none'
       
 
       //insert info
@@ -72,10 +72,12 @@ getDocs(colRef)
       description.innerHTML = event.shortdescription
       docId.innerHTML = event.id
       userUid.innerHTML = event.uid
+      userEmail.innerHTML = "created by:" + event.email
       //construct card
       bod.appendChild(names)
       bod.appendChild(description)
       bod.appendChild(docId)
+      bod.appendChild(userEmail)
       bod.appendChild(userUid)
       card.appendChild(picture)
       card.appendChild(bod)
@@ -85,9 +87,7 @@ getDocs(colRef)
     //display card in box
       place.addEventListener('click',function(thing){
         var targetCard
-        console.log(thing)
         targetCard = thing.path[1]
-        console.log(place.classList)
 
         document.querySelector('.box').style.display ='block'
         // console.log(thing.target.nextElementSibling.children[0].innerHTML)
@@ -123,16 +123,6 @@ getDocs(colRef)
           
         })
         
-        // save
-        document.querySelector('#save').addEventListener('click',function(){
-
-          // picture.src = document.querySelector('#imgurl')
-          if(userId.innerHTML == user.uid){
-              names.innerHTML = document.querySelector('#title').innerHTML
-              description.innerHTML = document.querySelector('#shortdescription').innerHTML
-          } 
-          
-        })
         
         //change image
         document.querySelector('#changeImgButton').addEventListener('click',function(){
@@ -150,9 +140,6 @@ getDocs(colRef)
              alert("invalid image")
            }
           } 
-            
-       
-           
         })
       })
     })
@@ -172,47 +159,9 @@ document.querySelectorAll('.card').forEach(function(event){
   document.querySelector("#closeButton").addEventListener("click", function(){
     document.querySelector('.box').style.display ='none'
   })
-
-
-
-
-  //add a card
-  const addCardForm = document.querySelector('.add')
-  addCardForm.addEventListener('submit',(e) => {
-    e.preventDefault()
-    addDoc(colRef, {
-      name: addCardForm.name.value,
-      shortdescription: addCardForm.shortdescription.value,
-      notes: " ",
-      imgurl: addCardForm.imgurl.value,
-      uid: user.uid
-    })
-    .then(() =>{
-      addCardForm.reset()
-      location.href = '../index.html'
-    })
-  })
-
-
-
-
-// // create a card 
-// document.querySelector('#create').addEventListener('click',function(){
-//   console.log('ell')
-//   location.href = 'cards/add.html'
-// })
-
-
-// redirect to main page
-document.querySelector("#closeBox").addEventListener('click', function(event){
-  // document.querySelector('.box').style.display = 'none'
-  // console.log("hel")
-  location.href = '../index.html'
-})
   
-//save changes 
+//save changes
 document.querySelector('#save').addEventListener('click', function(){
-  console.log(document.querySelector('#shortdescription').innerHTML)
   const docId = document.querySelector('#gone')
   const docRef = doc(db, 'cards', docId.innerHTML)
   updateDoc(docRef, {
@@ -224,40 +173,9 @@ document.querySelector('#save').addEventListener('click', function(){
     updateDoc(docRef, {
     shortdescription: document.querySelector('#shortdescription').innerHTML
   })
+  document.querySelector('.c' + document.querySelector('#gone').innerHTML).querySelector('.bod').querySelector('.card-title').innerHTML = document.querySelector('#title').innerHTML
+  document.querySelector('.c' + document.querySelector('#gone').innerHTML).querySelector('.bod').querySelector('.card-text').innerHTML = document.querySelector('#shortdescription').innerHTML
   document.querySelector('.box').style.display = 'none'
 })
 
-
-document.querySelector(".test").addEventListener('click', function(){
-  collection(db, 'users')
-  
 })
-
- })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

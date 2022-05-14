@@ -82,15 +82,7 @@
             const password = signUpForm.password.value
             createUserWithEmailAndPassword(auth, email, password)
             .then((cred) => {
-                setDoc(doc(db, 'user', cred.user.uid), {
-                    name: email
-                })
-                setDoc(doc(db, 'user', cred.user.uid, email), {
-                    name: "placeholder",
-                    notes: "placeholder",
-                    shortdescription: "placeholder",
-                    imgurl: "https://www.computerhope.com/jargon/p/program.png"
-                })
+                console.log(cred.user)
                 signUpForm.reset()
             })
             .catch((err) => {

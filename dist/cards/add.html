@@ -24,7 +24,7 @@
 <button id = "closeBox"> close </button>
 <button id = 'closeButton'></button>
 
-<form class="add">
+<form class="add" id='save'>
     <label for="imgurl">Image Url:</label>
     <input type="text" name="imgurl" required>
     <br>
@@ -40,6 +40,57 @@
      <button id="make">add a new card</button>
 </form>
 
-    <script src="../bundle.js"></script>
+    <script type="module">
+
+        import{initializeApp} from "https://www.gstatic.com/firebasejs/9.7.0/firebase-app.js";
+        import{
+            getAuth, onAuthStateChanged, createUserWithEmailAndPassword,
+            signOut, signInWithEmailAndPassword,
+        } from "https://www.gstatic.com/firebasejs/9.7.0/firebase-auth.js";
+        import{
+            setDoc, doc, addDoc,
+            getFirestore, collection,
+        } from "https://www.gstatic.com/firebasejs/9.7.0/firebase-firestore.js";
+
+
+       const firebaseConfig = {
+          apiKey: "AIzaSyAZQhVb2pn-m2Z4RzTPizRBlZCdqL6bcvo",
+          authDomain: "infocards-71e92.firebaseapp.com",
+          projectId: "infocards-71e92",
+          storageBucket: "infocards-71e92.appspot.com",
+          messagingSenderId: "943364574192",
+          appId: "1:943364574192:web:c68d516ba528285bc12b35"
+        };
+        initializeApp(firebaseConfig)
+
+
+
+        const auth = getAuth();
+        const db = getFirestore();
+        const colRef = collection(db, 'cards')
+        
+        onAuthStateChanged(auth, (user) => {
+          const addCardForm = document.querySelector('.add')
+          addCardForm.addEventListener('submit',(e) => {
+            e.preventDefault()
+            addDoc(colRef, {
+              name: addCardForm.name.value,
+              shortdescription: addCardForm.shortdescription.value,
+              notes: " ",
+              imgurl: addCardForm.imgurl.value,
+              uid: user.uid,
+              email: user.email
+            })
+            .then(() =>{
+              addCardForm.reset()
+              location.href = '../index.html'
+            })
+          })
+          
+          document.querySelector("#closeBox").addEventListener('click', function(event){
+              location.href = '../index.html'
+            })
+        })
+        </script>
 </body>
 </html>
