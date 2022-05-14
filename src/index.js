@@ -2,8 +2,14 @@ import{ initializeApp }from 'firebase/app'
 import{
   getFirestore, collection, getDocs,
   addDoc, deleteDoc, getDoc, doc,
-  onSnapshot, updateDoc
+  onSnapshot, updateDoc, setDoc,
 } from 'firebase/firestore'
+import{
+   getAuth, onAuthStateChanged, createUserWithEmailAndPassword,
+   signOut, signInWithEmailAndPassword,
+} from 'firebase/auth'
+
+
 
 
 const firebaseConfig = {
@@ -20,10 +26,16 @@ initializeApp(firebaseConfig)
 
 //init firestore
 const db = getFirestore()
+const auth = getAuth()
 
 //collection ref
-const colRef = collection(db, 'cards')
 
+
+ onAuthStateChanged(auth, (user) => {
+      
+  const colRef = collection(db, 'cards')
+  console.log(user.uid)
+  console.log(colRef)
 
 
 // display cards
@@ -43,24 +55,28 @@ getDocs(colRef)
       var names = document.createElement('h4')
       var description = document.createElement('p')
       var docId = document.createElement('p')
+      var userUid = document.createElement('p')
       //add class
       place.classList.add('col-sm-10', 'col-md-5', 'col-lg-4', 'col-xl-3', 'c' +event.id)
       card.classList.add('card')
-      picture.classList.add('card-img-top', 'col-xl-3','pic','b'+event.id)
+      picture.classList.add('card-img-top', 'col-xl-3','pic', 'fixImage','b'+event.id)
       bod.classList.add('card-body')
       names.classList.add('card-title')
       description.classList.add('card-text')
       docId.style.display = 'none'
+      
 
       //insert info
       picture.src = event.imgurl
       names.innerHTML = event.name
       description.innerHTML = event.shortdescription
       docId.innerHTML = event.id
+      userUid.innerHTML = event.uid
       //construct card
       bod.appendChild(names)
       bod.appendChild(description)
       bod.appendChild(docId)
+      bod.appendChild(userUid)
       card.appendChild(picture)
       card.appendChild(bod)
       place.appendChild(card)
@@ -82,6 +98,7 @@ getDocs(colRef)
         var cardNote = document.querySelector("#notes")
         var cardImg = document.querySelector("#image")
         var cardid = document.querySelector('#gone')
+        var userId = document.querySelector("#notgone")
         
         onSnapshot(docRef, (doc) => {
           cardImg.src = doc.data().imgurl
@@ -89,33 +106,53 @@ getDocs(colRef)
           cardDesc.innerHTML = doc.data().shortdescription
           cardNote.innerHTML = doc.data().notes
           cardid.innerHTML =  currentDoc
+          userId.innerHTML = userUid.innerHTML
         })
         
         // delete card
          document.querySelector('#delete').addEventListener('click', function(event){
           // console.log(document.querySelector('.'+ document.querySelector('#gone').innerHTML))
-          deleteDoc(doc(db,'cards', document.querySelector('#gone').innerHTML))
-          .then(() => {
-            document.querySelector('.box').style.display ='none'
-            document.querySelector('.'+document.querySelector('#gone').innerHTML).remove()
+          if(userId.innerHTML == user.uid){
+            deleteDoc(doc(db,'cards', document.querySelector('#gone').innerHTML))
+              .then(() => {
+                document.querySelector('.box').style.display ='none'
+                // document.querySelector('.'+document.querySelector('#gone').innerHTML).remove()
+              document.querySelector('.c' + document.querySelector('#gone').innerHTML).remove()
           })
+          } 
+          
         })
         
         // save
         document.querySelector('#save').addEventListener('click',function(){
-          names.innerHTML = document.querySelector('#title').innerHTML
-          description.innerHTML = document.querySelector('#shortdescription').innerHTML
+
+          // picture.src = document.querySelector('#imgurl')
+          if(userId.innerHTML == user.uid){
+              names.innerHTML = document.querySelector('#title').innerHTML
+              description.innerHTML = document.querySelector('#shortdescription').innerHTML
+          } 
+          
         })
         
         //change image
         document.querySelector('#changeImgButton').addEventListener('click',function(){
           
-          const docRef = doc(db, 'cards', document.querySelector('#gone').innerHTML)
+        if(userId.innerHTML == user.uid){
+             if(document.querySelector('#changeImgText').value.endsWith(".png") || document.querySelector('#changeImgText').value.endsWith(".jpg") || document.querySelector('#changeImgText').value.startsWith("https://") || document.querySelector('#changeImgText').value.startsWith("data:")){
+                   const docRef = doc(db, 'cards', document.querySelector('#gone').innerHTML)
             updateDoc(docRef, {
               imgurl: document.querySelector('#changeImgText').value
             })
             document.querySelector('#image').src = document.querySelector('#changeImgText').value
             document.querySelector('.c' + document.querySelector('#gone').innerHTML).querySelector('.b'+document.querySelector('#gone').innerHTML).src = document.querySelector('#changeImgText').value
+
+           } else {
+             alert("invalid image")
+           }
+          } 
+            
+       
+           
         })
       })
     })
@@ -148,6 +185,7 @@ document.querySelectorAll('.card').forEach(function(event){
       shortdescription: addCardForm.shortdescription.value,
       notes: " ",
       imgurl: addCardForm.imgurl.value,
+      uid: user.uid
     })
     .then(() =>{
       addCardForm.reset()
@@ -188,6 +226,15 @@ document.querySelector('#save').addEventListener('click', function(){
   })
   document.querySelector('.box').style.display = 'none'
 })
+
+
+document.querySelector(".test").addEventListener('click', function(){
+  collection(db, 'users')
+  
+})
+
+ })
+
 
 
 

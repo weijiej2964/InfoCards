@@ -24,6 +24,11 @@
 
 }
 
+.fixImage{
+    height: 200px;
+    width: 100%;
+}
+
 /** {*/
 /*    border-style: solid;*/
 /*    border-width: 1px;*/
