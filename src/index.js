@@ -35,6 +35,9 @@ const auth = getAuth()
 
   const colRef = collection(db, 'cards')
   console.log(user)
+if(user == null){
+  location.href = 'login.html'
+}
 
 // display cards
 let cards = []
@@ -179,5 +182,6 @@ document.querySelector('#save').addEventListener('click', function(){
   document.querySelector('.box').style.display = 'none'
 }
 })
+
 
 })
