@@ -32,7 +32,7 @@ const auth = getAuth()
 
 
  onAuthStateChanged(auth, (user) => {
-      
+
   const colRef = collection(db, 'cards')
   console.log(user)
 
@@ -64,7 +64,7 @@ getDocs(colRef)
       description.classList.add('card-text')
       docId.style.display = 'none'
       userUid.style.display = 'none'
-      
+
 
       //insert info
       picture.src = event.imgurl
@@ -83,7 +83,7 @@ getDocs(colRef)
       card.appendChild(bod)
       place.appendChild(card)
       document.querySelector('.row').appendChild(place)
-      
+
     //display card in box
       place.addEventListener('click',function(thing){
         var targetCard
@@ -99,7 +99,7 @@ getDocs(colRef)
         var cardImg = document.querySelector("#image")
         var cardid = document.querySelector('#gone')
         var userId = document.querySelector("#notgone")
-        
+
         onSnapshot(docRef, (doc) => {
           cardImg.src = doc.data().imgurl
           cardName.innerHTML = doc.data().name
@@ -108,7 +108,7 @@ getDocs(colRef)
           cardid.innerHTML =  currentDoc
           userId.innerHTML = userUid.innerHTML
         })
-        
+
         // delete card
          document.querySelector('#delete').addEventListener('click', function(event){
           // console.log(document.querySelector('.'+ document.querySelector('#gone').innerHTML))
@@ -119,14 +119,14 @@ getDocs(colRef)
                 // document.querySelector('.'+document.querySelector('#gone').innerHTML).remove()
               document.querySelector('.c' + document.querySelector('#gone').innerHTML).remove()
           })
-          } 
-          
+          }
+
         })
-        
-        
+
+
         //change image
         document.querySelector('#changeImgButton').addEventListener('click',function(){
-          
+
         if(userId.innerHTML == user.uid){
              if(document.querySelector('#changeImgText').value.endsWith(".png") || document.querySelector('#changeImgText').value.endsWith(".jpg") || document.querySelector('#changeImgText').value.startsWith("https://") || document.querySelector('#changeImgText').value.startsWith("data:")){
                    const docRef = doc(db, 'cards', document.querySelector('#gone').innerHTML)
@@ -139,7 +139,7 @@ getDocs(colRef)
            } else {
              alert("invalid image")
            }
-          } 
+          }
         })
       })
     })
@@ -159,9 +159,10 @@ document.querySelectorAll('.card').forEach(function(event){
   document.querySelector("#closeButton").addEventListener("click", function(){
     document.querySelector('.box').style.display ='none'
   })
-  
+
 //save changes
 document.querySelector('#save').addEventListener('click', function(){
+  if(document.querySelector('#notgone').innerHTML == user.uid){
   const docId = document.querySelector('#gone')
   const docRef = doc(db, 'cards', docId.innerHTML)
   updateDoc(docRef, {
@@ -176,6 +177,7 @@ document.querySelector('#save').addEventListener('click', function(){
   document.querySelector('.c' + document.querySelector('#gone').innerHTML).querySelector('.bod').querySelector('.card-title').innerHTML = document.querySelector('#title').innerHTML
   document.querySelector('.c' + document.querySelector('#gone').innerHTML).querySelector('.bod').querySelector('.card-text').innerHTML = document.querySelector('#shortdescription').innerHTML
   document.querySelector('.box').style.display = 'none'
+}
 })
 
 })
