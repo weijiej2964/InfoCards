@@ -34,7 +34,7 @@ const auth = getAuth()
  onAuthStateChanged(auth, (user) => {
       
   const colRef = collection(db, 'cards')
-  console.log(user.uid)
+  console.log(user)
 
 // display cards
 let cards = []
